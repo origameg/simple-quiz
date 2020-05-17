@@ -66,6 +66,11 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             return Task.FromResult((IEnumerable<Question>)randomQuestions);
         }
 
+        public Task<AnswerOption> GetCorrectAnswer(string questionId)
+        {
+            throw new NotImplementedException();
+        }
+
         private static IEnumerable<JsonQuestion> ReadFileContents(string filePath)
         {
             string content = System.IO.File.ReadAllText(filePath);

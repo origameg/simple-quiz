@@ -24,5 +24,12 @@ namespace SimpleQuiz.Backend.DataClient
         /// <param name="randomSelection">Indicates whether a varying selection of questions should be returned.</param>
         /// <returns>A selection of questions with their corresponding answer options.</returns>
         Task<IEnumerable<Question>> GetQuestionsAsync(int questionCount, bool randomSelection);
+
+        /// <summary>
+        /// Gets the correct answer for the given <paramref name="questionId"/>.
+        /// </summary>
+        /// <param name="questionId">The unique identifier of the question.</param>
+        /// <returns>The correct answer.</returns>
+        Task<AnswerOption> GetCorrectAnswer(string questionId);
     }
 }
