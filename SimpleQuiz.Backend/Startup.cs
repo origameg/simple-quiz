@@ -22,7 +22,7 @@ namespace SimpleQuiz.Backend
         {
             services.AddSingleton<IQuestionProvider, QuestionProvider>();
             services.AddSingleton<IQuizDataClient, JsonFileClient>();
-            services.AddSingleton<IJsonQuestionConverter, IJsonQuestionConverter>();
+            services.AddSingleton<IJsonQuestionConverter, JsonQuestionConverter>();
 
             services.AddControllers();
         }

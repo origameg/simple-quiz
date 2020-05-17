@@ -47,7 +47,7 @@ namespace SimpleQuiz.Backend.Controllers
         /// </param>
         /// <returns>A list of questions with their possible answer options.</returns>
         /// <response code="200">Success</response>
-        /// <response code="200">Bad Request (e.g. count is too high)</response>
+        /// <response code="200">Bad Request</response>
         /// <response code="500">Internal error</response>
         [ProducesResponseType(200, Type = typeof(IEnumerable<QuizQuestion>))]
         [ProducesResponseType(400)]
@@ -56,12 +56,42 @@ namespace SimpleQuiz.Backend.Controllers
         [HttpGet("fixed")]
         public async Task<IActionResult> GetFixedQuestionSet(int count = DefaultCount)
         {
+            return await GetQuestionSet(count, false);
+        }
+
+        /// <summary>
+        /// Get a set of random questions for a quiz. This endpoint will return a varying set of questions on
+        /// subsequent calls.
+        /// </summary>
+        /// <param name="count">
+        /// The number of questions to include. If this parameter is omitted, a default number of questions (10)
+        /// will be provided.
+        /// </param>
+        /// <returns>A list of questions with their possible answer options.</returns>
+        /// <response code="200">Success</response>
+        /// <response code="200">Bad Request</response>
+        /// <response code="500">Internal error</response>
+        [ProducesResponseType(200, Type = typeof(IEnumerable<QuizQuestion>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [Produces("application/json")]
+        [HttpGet("random")]
+        public async Task<IActionResult> GetRandomQuestionSet(int count = DefaultCount)
+        {
+            return await GetQuestionSet(count, true);
+        }
+
+        private async Task<IActionResult> GetQuestionSet(int count, bool randomSelection)
+        {
             if (count <= 0)
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
 
             try
             {
-                IEnumerable<QuizQuestion> questions = await _questionProvider.GetFixedQuestionList(count, Shuffling.Questions);
+                IEnumerable<QuizQuestion> questions = randomSelection ?
+                        await _questionProvider.GetRandomQuestionList(count, Shuffling.Questions)
+                        : await _questionProvider.GetFixedQuestionList(count, Shuffling.Questions);
+
                 return new OkObjectResult(questions);
             }
             catch (ArgumentOutOfRangeException)
