@@ -27,7 +27,7 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             public BasicMocks()
             {
                 ScoreCalculator = new Mock<IScoreCalculator>();
-                ScoreCalculator.Setup(p => p.Calculate(It.IsAny<QuizResponse>()))
+                ScoreCalculator.Setup(p => p.CalculateAsync(It.IsAny<QuizResponse>()))
                     .ReturnsAsync(new Score());
             }
         }

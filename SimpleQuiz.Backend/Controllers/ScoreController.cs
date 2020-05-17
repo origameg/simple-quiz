@@ -27,7 +27,7 @@ namespace SimpleQuiz.Backend.Controllers
         [ProducesResponseType(500)]
         [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> CalculateScore([FromBody] QuizResponse quizResponse)
+        public async Task<IActionResult> CalculateScoreAsync([FromBody] QuizResponse quizResponse)
         {
             return await Task.FromResult(new OkObjectResult(new Score()));
         }

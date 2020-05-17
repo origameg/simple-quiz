@@ -57,21 +57,21 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
         }
 
         [Test]
-        public async Task GetAvailableQuestionCount_Returns_CorrectNumber()
+        public async Task GetAvailableQuestionCountAsync_Returns_CorrectNumber()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            int actual = await underTest.GetAvailableQuestionCount();
+            int actual = await underTest.GetAvailableQuestionCountAsync();
 
             // Assert
             Assert.That(actual, Is.EqualTo(AvailableQuestionCount));
         }
 
         [Theory]
-        public void GetQuestions_NotEnoughQuestions_Throws_Exception(bool randomSelection)
+        public void GetQuestionsAsync_NotEnoughQuestions_Throws_Exception(bool randomSelection)
         {
             // Arrange
             int tooHighCount = AvailableQuestionCount + 1;
@@ -81,11 +81,11 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
 
             // Act & Assert
             Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-                underTest.GetQuestions(tooHighCount, randomSelection));
+                underTest.GetQuestionsAsync(tooHighCount, randomSelection));
         }
 
         [Test]
-        public async Task GetQuestions_Returns_CorrectNumberOfQuestions(
+        public async Task GetQuestionsAsync_Returns_CorrectNumberOfQuestions(
             [Values(1, 2, 10, 15)] int questionCount,
             [Values(true, false)] bool randomSelection)
         {
@@ -94,14 +94,14 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestionsAsync(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Count, Is.EqualTo(questionCount));
         }
 
         [Test]
-        public async Task GetQuestions_Returns_UniqueQuestions(
+        public async Task GetQuestionsAsync_Returns_UniqueQuestions(
             [Values(2, 10, 15)] int questionCount,
             [Values(true, false)] bool randomSelection)
         {
@@ -110,14 +110,14 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestionsAsync(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Select(x => x.QuestionText), Is.Unique);
         }
 
         [Test]
-        public async Task GetQuestions_Returns_UniqueQuestionIds(
+        public async Task GetQuestionsAsync_Returns_UniqueQuestionIds(
             [Values(2, 10, 15)] int questionCount,
             [Values(true, false)] bool randomSelection)
         {
@@ -126,14 +126,14 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestionsAsync(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Select(x => x.Id), Is.Unique);
         }
 
         [Test]
-        public async Task GetQuestions_Returns_UniqueAnswerIds_PerQuestion(
+        public async Task GetQuestionsAsync_Returns_UniqueAnswerIds_PerQuestion(
             [Values(2, 10, 15)] int questionCount,
             [Values(true, false)] bool randomSelection)
         {
@@ -142,7 +142,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestionsAsync(questionCount, randomSelection);
 
             // Assert
             foreach (Question question in actual)
@@ -150,7 +150,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
         }
 
         [Test]
-        public async Task GetQuestions_RandomSelection_False_Returns_SameQuestions(
+        public async Task GetQuestionsAsync_RandomSelection_False_Returns_SameQuestions(
             [Values(1, 2, 10)] int questionCount)
         {
             // Arrange
@@ -158,15 +158,15 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<Question> actual1 = await underTest.GetQuestions(questionCount, false);
-            IEnumerable<Question> actual2 = await underTest.GetQuestions(questionCount, false);
+            IEnumerable<Question> actual1 = await underTest.GetQuestionsAsync(questionCount, false);
+            IEnumerable<Question> actual2 = await underTest.GetQuestionsAsync(questionCount, false);
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.EquivalentTo(actual2.Select(x => x.Id)));
         }
 
         [Test]
-        public async Task GetQuestions_RandomSelection_True_Returns_DifferentQuestions(
+        public async Task GetQuestionsAsync_RandomSelection_True_Returns_DifferentQuestions(
             [Values(1, 2, 10)] int questionCount)
         {
             // Arrange
@@ -175,8 +175,8 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = new JsonFileClient(mocks.QuestionConverter.Object, mocks.Configuration.Object, seed);
 
             // Act
-            IEnumerable<Question> actual1 = await underTest.GetQuestions(questionCount, true);
-            IEnumerable<Question> actual2 = await underTest.GetQuestions(questionCount, true);
+            IEnumerable<Question> actual1 = await underTest.GetQuestionsAsync(questionCount, true);
+            IEnumerable<Question> actual2 = await underTest.GetQuestionsAsync(questionCount, true);
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.Not.EquivalentTo(actual2.Select(x => x.Id)));

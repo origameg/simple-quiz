@@ -9,6 +9,6 @@ namespace SimpleQuiz.Backend
     /// </summary>
     public interface IScoreCalculator
     {
-        Task<Score> Calculate(QuizResponse response);
+        Task<Score> CalculateAsync(QuizResponse response);
     }
 }

@@ -42,12 +42,12 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             }
         }
 
-        public Task<int> GetAvailableQuestionCount()
+        public Task<int> GetAvailableQuestionCountAsync()
         {
             return Task.FromResult(_questions.Count);
         }
 
-        public Task<IEnumerable<Question>> GetQuestions(int questionCount, bool randomSelection)
+        public Task<IEnumerable<Question>> GetQuestionsAsync(int questionCount, bool randomSelection)
         {
             if (questionCount > _questions.Count)
                 throw new ArgumentOutOfRangeException(nameof(questionCount), "Not enough questions available");

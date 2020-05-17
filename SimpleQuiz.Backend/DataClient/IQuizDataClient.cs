@@ -14,7 +14,7 @@ namespace SimpleQuiz.Backend.DataClient
         /// Gets the maximum number of questions available from the given data source.
         /// </summary>
         /// <returns>The number of unique questions available.</returns>
-        Task<int> GetAvailableQuestionCount();
+        Task<int> GetAvailableQuestionCountAsync();
 
         /// <summary>
         /// Gets a set of questions from the given data source. If <paramref name="randomSelection"/> is false,
@@ -23,6 +23,6 @@ namespace SimpleQuiz.Backend.DataClient
         /// <param name="questionCount">The number of questions to return.</param>
         /// <param name="randomSelection">Indicates whether a varying selection of questions should be returned.</param>
         /// <returns>A selection of questions with their corresponding answer options.</returns>
-        Task<IEnumerable<Question>> GetQuestions(int questionCount, bool randomSelection);
+        Task<IEnumerable<Question>> GetQuestionsAsync(int questionCount, bool randomSelection);
     }
 }

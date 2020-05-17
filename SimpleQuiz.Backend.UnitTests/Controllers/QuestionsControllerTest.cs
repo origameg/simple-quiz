@@ -15,14 +15,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
     internal class QuestionsControllerTest
     {
         [Test]
-        public async Task GetQuestionCount_Returns_200OK()
+        public async Task GetQuestionCountAsync_Returns_200OK()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetQuestionCount();
+            IActionResult result = await underTest.GetQuestionCountAsync();
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -30,16 +30,16 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetQuestionCount_Returns_CountFromProvider()
+        public async Task GetQuestionCountAsync_Returns_CountFromProvider()
         {
             // Arrange
             const int expected = 13;
             BasicMocks mocks = new BasicMocks();
-            mocks.QuestionProvider.Setup(p => p.GetQuestionCount()).ReturnsAsync(expected);
+            mocks.QuestionProvider.Setup(p => p.GetQuestionCountAsync()).ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetQuestionCount();
+            IActionResult result = await underTest.GetQuestionCountAsync();
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -47,14 +47,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_DefaultCount_Returns_200OK()
+        public async Task GetFixedQuestionSetAsync_DefaultCount_Returns_200OK()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet();
+            IActionResult result = await underTest.GetFixedQuestionSetAsync();
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -62,14 +62,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_Returns_200OK([Values(1, 2, 10, 15)] int questionCount)
+        public async Task GetFixedQuestionSetAsync_Returns_200OK([Values(1, 2, 10, 15)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet(questionCount);
+            IActionResult result = await underTest.GetFixedQuestionSetAsync(questionCount);
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -77,17 +77,17 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_DefaultCount_Returns_QuestionsFromProvider()
+        public async Task GetFixedQuestionSetAsync_DefaultCount_Returns_QuestionsFromProvider()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             IEnumerable<Question> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix:"expected");
-            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionList(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionListAsync(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet();
+            IActionResult result = await underTest.GetFixedQuestionSetAsync();
 
             // Assert
             Quiz actual = GetResponseObject<Quiz>(result);
@@ -95,17 +95,17 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_Returns_QuestionsFromProvider([Values(1, 2, 10, 15)] int questionCount)
+        public async Task GetFixedQuestionSetAsync_Returns_QuestionsFromProvider([Values(1, 2, 10, 15)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             IEnumerable<Question> expected = CreateFakeQuestions(questionCount, prefix: "expected");
-            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionList(questionCount, It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionListAsync(questionCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet(questionCount);
+            IActionResult result = await underTest.GetFixedQuestionSetAsync(questionCount);
 
             // Assert
             Quiz actual = GetResponseObject<Quiz>(result);
@@ -113,14 +113,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_InvalidCount_Returns_400BadRequest([Values(-1, 0)] int questionCount)
+        public async Task GetFixedQuestionSetAsync_InvalidCount_Returns_400BadRequest([Values(-1, 0)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet(questionCount);
+            IActionResult result = await underTest.GetFixedQuestionSetAsync(questionCount);
 
             // Assert
             StatusCodeResult actual = result as StatusCodeResult;
@@ -128,19 +128,19 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetFixedQuestionSet_CountTooHigh_Returns_400BadRequest()
+        public async Task GetFixedQuestionSetAsync_CountTooHigh_Returns_400BadRequest()
         {
             // Arrange
             const int availableQuestionCount = 10;
             BasicMocks mocks = new BasicMocks();
-            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionList(It.IsAny<int>(), It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetFixedQuestionListAsync(It.IsAny<int>(), It.IsAny<Shuffling>()))
                 .ThrowsAsync(new ArgumentOutOfRangeException());
-            mocks.QuestionProvider.Setup(p => p.GetQuestionCount())
+            mocks.QuestionProvider.Setup(p => p.GetQuestionCountAsync())
                 .ReturnsAsync(availableQuestionCount);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetFixedQuestionSet(11);
+            IActionResult result = await underTest.GetFixedQuestionSetAsync(11);
 
             // Assert
             StatusCodeResult actual = result as StatusCodeResult;
@@ -148,14 +148,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_DefaultCount_Returns_200OK()
+        public async Task GetRandomQuestionSetAsync_DefaultCount_Returns_200OK()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet();
+            IActionResult result = await underTest.GetRandomQuestionSetAsync();
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -163,14 +163,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_Returns_200OK([Values(1, 2, 10, 15)] int questionCount)
+        public async Task GetRandomQuestionSetAsync_Returns_200OK([Values(1, 2, 10, 15)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet(questionCount);
+            IActionResult result = await underTest.GetRandomQuestionSetAsync(questionCount);
 
             // Assert
             ObjectResult actual = result as ObjectResult;
@@ -178,17 +178,17 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_DefaultCount_Returns_QuestionsFromProvider()
+        public async Task GetRandomQuestionSetAsync_DefaultCount_Returns_QuestionsFromProvider()
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             IEnumerable<Question> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix: "expected");
-            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionList(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionListAsync(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet();
+            IActionResult result = await underTest.GetRandomQuestionSetAsync();
 
             // Assert
             Quiz actual = GetResponseObject<Quiz>(result);
@@ -196,17 +196,17 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_Returns_QuestionsFromProvider([Values(1, 2, 10, 15)] int questionCount)
+        public async Task GetRandomQuestionSetAsync_Returns_QuestionsFromProvider([Values(1, 2, 10, 15)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             IEnumerable<Question> expected = CreateFakeQuestions(questionCount, prefix: "expected");
-            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionList(questionCount, It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionListAsync(questionCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet(questionCount);
+            IActionResult result = await underTest.GetRandomQuestionSetAsync(questionCount);
 
             // Assert
             Quiz actual = GetResponseObject<Quiz>(result);
@@ -214,14 +214,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_InvalidCount_Returns_400BadRequest([Values(-1, 0)] int questionCount)
+        public async Task GetRandomQuestionSetAsync_InvalidCount_Returns_400BadRequest([Values(-1, 0)] int questionCount)
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet(questionCount);
+            IActionResult result = await underTest.GetRandomQuestionSetAsync(questionCount);
 
             // Assert
             StatusCodeResult actual = result as StatusCodeResult;
@@ -229,19 +229,19 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         }
 
         [Test]
-        public async Task GetRandomQuestionSet_CountTooHigh_Returns_400BadRequest()
+        public async Task GetRandomQuestionSetAsync_CountTooHigh_Returns_400BadRequest()
         {
             // Arrange
             const int availableQuestionCount = 10;
             BasicMocks mocks = new BasicMocks();
-            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionList(It.IsAny<int>(), It.IsAny<Shuffling>()))
+            mocks.QuestionProvider.Setup(p => p.GetRandomQuestionListAsync(It.IsAny<int>(), It.IsAny<Shuffling>()))
                 .ThrowsAsync(new ArgumentOutOfRangeException());
-            mocks.QuestionProvider.Setup(p => p.GetQuestionCount())
+            mocks.QuestionProvider.Setup(p => p.GetQuestionCountAsync())
                 .ReturnsAsync(availableQuestionCount);
             QuestionsController underTest = CreateUnderTest(mocks);
 
             // Act
-            IActionResult result = await underTest.GetRandomQuestionSet(11);
+            IActionResult result = await underTest.GetRandomQuestionSetAsync(11);
 
             // Assert
             StatusCodeResult actual = result as StatusCodeResult;
@@ -272,11 +272,11 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             public BasicMocks()
             {
                 QuestionProvider = new Mock<IQuestionProvider>();
-                QuestionProvider.Setup(p => p.GetQuestionCount())
+                QuestionProvider.Setup(p => p.GetQuestionCountAsync())
                     .ReturnsAsync(15);
-                QuestionProvider.Setup(p => p.GetFixedQuestionList(It.IsAny<int>(), It.IsAny<Shuffling>()))
+                QuestionProvider.Setup(p => p.GetFixedQuestionListAsync(It.IsAny<int>(), It.IsAny<Shuffling>()))
                     .ReturnsAsync((int count, Shuffling shuffling) => CreateFakeQuestions(count));
-                QuestionProvider.Setup(p => p.GetRandomQuestionList(It.IsAny<int>(), It.IsAny<Shuffling>()))
+                QuestionProvider.Setup(p => p.GetRandomQuestionListAsync(It.IsAny<int>(), It.IsAny<Shuffling>()))
                     .ReturnsAsync((int count, Shuffling shuffling) => CreateFakeQuestions(count));
             }
         }

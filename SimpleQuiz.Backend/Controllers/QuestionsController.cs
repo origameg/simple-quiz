@@ -32,9 +32,9 @@ namespace SimpleQuiz.Backend.Controllers
         [ProducesResponseType(500)]
         [Produces("application/json")]
         [HttpGet("count")]
-        public async Task<IActionResult> GetQuestionCount()
+        public async Task<IActionResult> GetQuestionCountAsync()
         {
-            int questionCount = await _questionProvider.GetQuestionCount();
+            int questionCount = await _questionProvider.GetQuestionCountAsync();
             return new OkObjectResult(questionCount);
         }
 
@@ -54,9 +54,9 @@ namespace SimpleQuiz.Backend.Controllers
         [ProducesResponseType(500)]
         [Produces("application/json")]
         [HttpGet("fixed")]
-        public async Task<IActionResult> GetFixedQuestionSet(int count = DefaultCount)
+        public async Task<IActionResult> GetFixedQuestionSetAsync(int count = DefaultCount)
         {
-            return await GetQuestionSet(count, false);
+            return await GetQuestionSetAsync(count, false);
         }
 
         /// <summary>
@@ -76,12 +76,12 @@ namespace SimpleQuiz.Backend.Controllers
         [ProducesResponseType(500)]
         [Produces("application/json")]
         [HttpGet("random")]
-        public async Task<IActionResult> GetRandomQuestionSet(int count = DefaultCount)
+        public async Task<IActionResult> GetRandomQuestionSetAsync(int count = DefaultCount)
         {
-            return await GetQuestionSet(count, true);
+            return await GetQuestionSetAsync(count, true);
         }
 
-        private async Task<IActionResult> GetQuestionSet(int count, bool randomSelection)
+        private async Task<IActionResult> GetQuestionSetAsync(int count, bool randomSelection)
         {
             if (count <= 0)
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
@@ -89,15 +89,15 @@ namespace SimpleQuiz.Backend.Controllers
             try
             {
                 IEnumerable<Question> questions = randomSelection ?
-                        await _questionProvider.GetRandomQuestionList(count, Shuffling.Questions)
-                        : await _questionProvider.GetFixedQuestionList(count, Shuffling.Questions);
+                        await _questionProvider.GetRandomQuestionListAsync(count, Shuffling.Questions)
+                        : await _questionProvider.GetFixedQuestionListAsync(count, Shuffling.Questions);
 
                 Quiz quiz = new Quiz { Questions = questions };
                 return new OkObjectResult(quiz);
             }
             catch (ArgumentOutOfRangeException)
             {
-                int availableQuestionCount = await _questionProvider.GetQuestionCount();
+                int availableQuestionCount = await _questionProvider.GetQuestionCountAsync();
                 if (count > availableQuestionCount)
                     return new StatusCodeResult(StatusCodes.Status400BadRequest);
                 throw;

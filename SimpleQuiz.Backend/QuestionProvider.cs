@@ -23,24 +23,24 @@ namespace SimpleQuiz.Backend
             _random = new Random();
         }
 
-        public async Task<int> GetQuestionCount()
+        public async Task<int> GetQuestionCountAsync()
         {
-            return await _dataClient.GetAvailableQuestionCount();
+            return await _dataClient.GetAvailableQuestionCountAsync();
         }
 
-        public Task<IEnumerable<Question>> GetFixedQuestionList(int questionCount, Shuffling shuffling)
+        public Task<IEnumerable<Question>> GetFixedQuestionListAsync(int questionCount, Shuffling shuffling)
         {
-            return CreateQuestionList(questionCount, false, shuffling);
+            return CreateQuestionListAsync(questionCount, false, shuffling);
         }
 
-        public Task<IEnumerable<Question>> GetRandomQuestionList(int questionCount, Shuffling shuffling)
+        public Task<IEnumerable<Question>> GetRandomQuestionListAsync(int questionCount, Shuffling shuffling)
         {
-            return CreateQuestionList(questionCount, true, shuffling);
+            return CreateQuestionListAsync(questionCount, true, shuffling);
         }
 
-        private async Task<IEnumerable<Question>> CreateQuestionList(int questionCount, bool randomSelection, Shuffling shuffling)
+        private async Task<IEnumerable<Question>> CreateQuestionListAsync(int questionCount, bool randomSelection, Shuffling shuffling)
         {
-            Question[] questions = (await _dataClient.GetQuestions(questionCount, randomSelection)).ToArray();
+            Question[] questions = (await _dataClient.GetQuestionsAsync(questionCount, randomSelection)).ToArray();
 
             if ((shuffling & Shuffling.Questions) != 0)
                 questions = Shuffle(questions);
