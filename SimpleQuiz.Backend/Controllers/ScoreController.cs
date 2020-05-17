@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleQuiz.Backend.Models;
 
@@ -22,14 +24,20 @@ namespace SimpleQuiz.Backend.Controllers
         /// </summary>
         /// <returns>The number of available questions.</returns>
         /// <response code="200">Success</response>
+        /// <response code="400">Bad request</response>
         /// <response code="500">Internal error</response>
         [ProducesResponseType(200, Type = typeof(Score))]
+        [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
         [HttpPost]
         public async Task<IActionResult> CalculateScoreAsync([FromBody] QuizResponse quizResponse)
         {
-            return await Task.FromResult(new OkObjectResult(new Score()));
+            if (quizResponse?.Responses == null || !quizResponse.Responses.Any())
+                return new StatusCodeResult(StatusCodes.Status400BadRequest);
+
+            Score score = await _scoreCalculator.CalculateAsync(quizResponse);
+            return new OkObjectResult(score);
         }
     }
 }
