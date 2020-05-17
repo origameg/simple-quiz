@@ -81,7 +81,7 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
-            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix:"expected");
+            IEnumerable<Question> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix:"expected");
             mocks.QuestionProvider.Setup(p => p.GetFixedQuestionList(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
@@ -90,8 +90,8 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             IActionResult result = await underTest.GetFixedQuestionSet();
 
             // Assert
-            IEnumerable<QuizQuestion> actual = GetResponseObject<IEnumerable<QuizQuestion>>(result);
-            Assert.That(actual.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
+            Quiz actual = GetResponseObject<Quiz>(result);
+            Assert.That(actual.Questions.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
-            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(questionCount, prefix: "expected");
+            IEnumerable<Question> expected = CreateFakeQuestions(questionCount, prefix: "expected");
             mocks.QuestionProvider.Setup(p => p.GetFixedQuestionList(questionCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
@@ -108,8 +108,8 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             IActionResult result = await underTest.GetFixedQuestionSet(questionCount);
 
             // Assert
-            IEnumerable<QuizQuestion> actual = GetResponseObject<IEnumerable<QuizQuestion>>(result);
-            Assert.That(actual.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
+            Quiz actual = GetResponseObject<Quiz>(result);
+            Assert.That(actual.Questions.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
-            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix: "expected");
+            IEnumerable<Question> expected = CreateFakeQuestions(QuestionsController.DefaultCount, prefix: "expected");
             mocks.QuestionProvider.Setup(p => p.GetRandomQuestionList(QuestionsController.DefaultCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
@@ -191,8 +191,8 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             IActionResult result = await underTest.GetRandomQuestionSet();
 
             // Assert
-            IEnumerable<QuizQuestion> actual = GetResponseObject<IEnumerable<QuizQuestion>>(result);
-            Assert.That(actual.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
+            Quiz actual = GetResponseObject<Quiz>(result);
+            Assert.That(actual.Questions.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
         {
             // Arrange
             BasicMocks mocks = new BasicMocks();
-            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(questionCount, prefix: "expected");
+            IEnumerable<Question> expected = CreateFakeQuestions(questionCount, prefix: "expected");
             mocks.QuestionProvider.Setup(p => p.GetRandomQuestionList(questionCount, It.IsAny<Shuffling>()))
                 .ReturnsAsync(expected);
             QuestionsController underTest = CreateUnderTest(mocks);
@@ -209,8 +209,8 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             IActionResult result = await underTest.GetRandomQuestionSet(questionCount);
 
             // Assert
-            IEnumerable<QuizQuestion> actual = GetResponseObject<IEnumerable<QuizQuestion>>(result);
-            Assert.That(actual.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
+            Quiz actual = GetResponseObject<Quiz>(result);
+            Assert.That(actual.Questions.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
         }
 
         [Test]
@@ -259,10 +259,10 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             return new QuestionsController(mocks.QuestionProvider.Object);
         }
 
-        private static IEnumerable<QuizQuestion> CreateFakeQuestions(int count, string prefix = "id")
+        private static IEnumerable<Question> CreateFakeQuestions(int count, string prefix = "id")
         {
             for (int i = 0; i < count; i++)
-                yield return new QuizQuestion { Id = $"{prefix}-{i}" };
+                yield return new Question { Id = $"{prefix}-{i}" };
         }
 
         private class BasicMocks

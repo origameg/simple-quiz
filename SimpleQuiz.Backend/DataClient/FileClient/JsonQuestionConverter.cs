@@ -6,11 +6,11 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
 {
     internal class JsonQuestionConverter : IJsonQuestionConverter
     {
-        public (QuizQuestion question, string correctAnswerId) Convert(JsonQuestion jsonQuestion)
+        public (Question question, string correctAnswerId) Convert(JsonQuestion jsonQuestion)
         {
             // TODO: Improve error handling (mismatched correct answer, missing properties, etc)
 
-            QuizQuestion convertedQuestion = new QuizQuestion();
+            Question convertedQuestion = new Question();
             string correctAnswerId = null;
 
             convertedQuestion.QuestionText = jsonQuestion.Question;

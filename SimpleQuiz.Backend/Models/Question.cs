@@ -6,7 +6,7 @@ namespace SimpleQuiz.Backend.Models
     /// <summary>
     /// Represents a single question to be presented in the quiz.
     /// </summary>
-    public class QuizQuestion
+    public class Question
     {
         /// <summary>
         /// A unique identifier for the question. This should be used when processing the user's response, as it

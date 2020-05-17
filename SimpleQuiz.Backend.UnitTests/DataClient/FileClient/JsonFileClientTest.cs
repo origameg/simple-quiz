@@ -94,7 +94,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Count, Is.EqualTo(questionCount));
@@ -110,7 +110,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Select(x => x.QuestionText), Is.Unique);
@@ -126,7 +126,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
 
             // Assert
             Assert.That(actual.Select(x => x.Id), Is.Unique);
@@ -142,10 +142,10 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = await underTest.GetQuestions(questionCount, randomSelection);
+            IEnumerable<Question> actual = await underTest.GetQuestions(questionCount, randomSelection);
 
             // Assert
-            foreach (QuizQuestion question in actual)
+            foreach (Question question in actual)
                 Assert.That(question.Answers.Select(x => x.Id), Is.Unique);
         }
 
@@ -158,8 +158,8 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual1 = await underTest.GetQuestions(questionCount, false);
-            IEnumerable<QuizQuestion> actual2 = await underTest.GetQuestions(questionCount, false);
+            IEnumerable<Question> actual1 = await underTest.GetQuestions(questionCount, false);
+            IEnumerable<Question> actual2 = await underTest.GetQuestions(questionCount, false);
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.EquivalentTo(actual2.Select(x => x.Id)));
@@ -175,8 +175,8 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IQuizDataClient underTest = new JsonFileClient(mocks.QuestionConverter.Object, mocks.Configuration.Object, seed);
 
             // Act
-            IEnumerable<QuizQuestion> actual1 = await underTest.GetQuestions(questionCount, true);
-            IEnumerable<QuizQuestion> actual2 = await underTest.GetQuestions(questionCount, true);
+            IEnumerable<Question> actual1 = await underTest.GetQuestions(questionCount, true);
+            IEnumerable<Question> actual2 = await underTest.GetQuestions(questionCount, true);
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.Not.EquivalentTo(actual2.Select(x => x.Id)));
@@ -202,19 +202,19 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
                 QuestionConverter.Setup(x => x.Convert(It.IsAny<JsonQuestion>()))
                     .Returns(() =>
                     {
-                        QuizQuestion question = CreateFakeQuestion(nextId);
+                        Question question = CreateFakeQuestion(nextId);
                         return (question, question.Answers.First().Id);
                     })
                     .Callback(() => nextId++);
 
 
-                QuizQuestion CreateFakeQuestion(int i)
+                Question CreateFakeQuestion(int i)
                 {
                     List<AnswerOption> answers = new List<AnswerOption>();
                     for (int x = 0; x < AnswersPerQuestion; x++)
                         answers.Add(CreateAnswer(i, x));
 
-                    return new QuizQuestion
+                    return new Question
                     {
                         Id = $"QuestionId-{i}",
                         QuestionText = $"Fake question {i}",

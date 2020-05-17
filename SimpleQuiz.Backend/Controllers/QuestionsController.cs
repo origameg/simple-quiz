@@ -49,7 +49,7 @@ namespace SimpleQuiz.Backend.Controllers
         /// <response code="200">Success</response>
         /// <response code="200">Bad Request</response>
         /// <response code="500">Internal error</response>
-        [ProducesResponseType(200, Type = typeof(IEnumerable<QuizQuestion>))]
+        [ProducesResponseType(200, Type = typeof(Quiz))]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
@@ -71,7 +71,7 @@ namespace SimpleQuiz.Backend.Controllers
         /// <response code="200">Success</response>
         /// <response code="200">Bad Request</response>
         /// <response code="500">Internal error</response>
-        [ProducesResponseType(200, Type = typeof(IEnumerable<QuizQuestion>))]
+        [ProducesResponseType(200, Type = typeof(Quiz))]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
@@ -88,11 +88,12 @@ namespace SimpleQuiz.Backend.Controllers
 
             try
             {
-                IEnumerable<QuizQuestion> questions = randomSelection ?
+                IEnumerable<Question> questions = randomSelection ?
                         await _questionProvider.GetRandomQuestionList(count, Shuffling.Questions)
                         : await _questionProvider.GetFixedQuestionList(count, Shuffling.Questions);
 
-                return new OkObjectResult(questions);
+                Quiz quiz = new Quiz { Questions = questions };
+                return new OkObjectResult(quiz);
             }
             catch (ArgumentOutOfRangeException)
             {

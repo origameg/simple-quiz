@@ -16,7 +16,7 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
         internal const string ConfigFileKey = "SampleQuestionFile";
 
         private Random _random;
-        private List<QuizQuestion> _questions;
+        private List<Question> _questions;
         private Dictionary<string, string> _answers;
 
         internal JsonFileClient(IJsonQuestionConverter questionConverter, IConfiguration configuration, int randomSeed)
@@ -32,11 +32,11 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
 
             _random = new Random();
 
-            _questions = new List<QuizQuestion>();
+            _questions = new List<Question>();
             _answers = new Dictionary<string, string>();
             foreach (JsonQuestion jsonQuestion in jsonQuestions)
             {
-                (QuizQuestion question, string correctAnswerId) convertedQuestion = questionConverter.Convert(jsonQuestion);
+                (Question question, string correctAnswerId) convertedQuestion = questionConverter.Convert(jsonQuestion);
                 _questions.Add(convertedQuestion.question);
                 _answers.Add(convertedQuestion.question.Id, convertedQuestion.correctAnswerId);
             }
@@ -47,7 +47,7 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             return Task.FromResult(_questions.Count);
         }
 
-        public Task<IEnumerable<QuizQuestion>> GetQuestions(int questionCount, bool randomSelection)
+        public Task<IEnumerable<Question>> GetQuestions(int questionCount, bool randomSelection)
         {
             if (questionCount > _questions.Count)
                 throw new ArgumentOutOfRangeException(nameof(questionCount), "Not enough questions available");
@@ -55,7 +55,7 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             if (!randomSelection)
                 return Task.FromResult(_questions.Take(questionCount));
 
-            List<QuizQuestion> randomQuestions = new List<QuizQuestion>(questionCount);
+            List<Question> randomQuestions = new List<Question>(questionCount);
             List<int> remainingQuestions = Enumerable.Range(0, _questions.Count).ToList();
             for (int i = 0; i < questionCount; i++)
             {
@@ -63,7 +63,7 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
                 randomQuestions.Add(_questions[remainingQuestions[index]]);
                 remainingQuestions.RemoveAt(index);
             }
-            return Task.FromResult((IEnumerable<QuizQuestion>)randomQuestions);
+            return Task.FromResult((IEnumerable<Question>)randomQuestions);
         }
 
         private static IEnumerable<JsonQuestion> ReadFileContents(string filePath)

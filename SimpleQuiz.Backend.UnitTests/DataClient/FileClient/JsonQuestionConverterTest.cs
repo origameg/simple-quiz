@@ -19,7 +19,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             Assert.That(actual.question.QuestionText, Is.EqualTo(expected));
@@ -36,7 +36,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             Assert.That(actual.question.Id, Is.Not.Null.And.Not.Empty);
@@ -53,7 +53,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             Assert.That(actual.question.Answers.Select(x => x.Text), Is.EquivalentTo(expected));
@@ -68,7 +68,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             Assert.That(actual.question.Answers.Select(x => x.Id), Is.All.Not.Null.And.Not.Empty);
@@ -83,7 +83,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             Assert.That(actual.question.Answers.Select(x => x.Id), Is.Unique);
@@ -105,7 +105,7 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
             IJsonQuestionConverter underTest = new JsonQuestionConverter();
 
             // Act
-            (QuizQuestion question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
+            (Question question, string correctAnswerId) actual = underTest.Convert(jsonQuestion);
 
             // Assert
             string expected = actual.question.Answers.First(x => x.Text == correctAnswer).Id;
