@@ -15,9 +15,9 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
     {
         internal const string ConfigFileKey = "SampleQuestionFile";
 
-        private Random _random;
-        private List<Question> _questions;
-        private Dictionary<string, string> _answers;
+        private readonly Random _random;
+        private readonly List<Question> _questions;
+        private readonly Dictionary<string, string> _answers;
 
         internal JsonFileClient(IJsonQuestionConverter questionConverter, IConfiguration configuration, int randomSeed)
             : this(questionConverter, configuration)
@@ -66,9 +66,12 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             return Task.FromResult((IEnumerable<Question>)randomQuestions);
         }
 
-        public Task<AnswerOption> GetCorrectAnswer(string questionId)
+        public Task<string> GetCorrectAnswerIdAsync(string questionId)
         {
-            throw new NotImplementedException();
+            if (!_answers.ContainsKey(questionId))
+                return Task.FromResult((string) null);
+
+            return Task.FromResult(_answers[questionId]);
         }
 
         private static IEnumerable<JsonQuestion> ReadFileContents(string filePath)

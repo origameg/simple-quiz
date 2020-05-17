@@ -23,8 +23,8 @@ namespace SimpleQuiz.Backend
             {
                 totalQuestions++;
 
-                AnswerOption correctAnswer = await _dataClient.GetCorrectAnswer(questionResponse.QuestionId);
-                if (correctAnswer.Id == questionResponse.AnswerId)
+                string correctAnswer = await _dataClient.GetCorrectAnswerIdAsync(questionResponse.QuestionId);
+                if (correctAnswer != null && correctAnswer == questionResponse.AnswerId)
                     correctQuestions++;
             }
 

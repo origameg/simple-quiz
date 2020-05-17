@@ -30,6 +30,6 @@ namespace SimpleQuiz.Backend.DataClient
         /// </summary>
         /// <param name="questionId">The unique identifier of the question.</param>
         /// <returns>The correct answer.</returns>
-        Task<AnswerOption> GetCorrectAnswer(string questionId);
+        Task<string> GetCorrectAnswerIdAsync(string questionId);
     }
 }

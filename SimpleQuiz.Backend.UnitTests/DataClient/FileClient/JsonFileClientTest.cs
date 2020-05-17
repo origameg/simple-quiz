@@ -23,6 +23,8 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
         [OneTimeSetUp]
         public void TestFixtureSetup()
         {
+            // These questions are only used to establish the number of questions.
+            // The actual values are overridden by the QuestionConverter mock
             JsonQuestion[] fakeQuestions = new JsonQuestion[AvailableQuestionCount];
             for (int i = 0; i < AvailableQuestionCount; i++)
                 fakeQuestions[i] = new JsonQuestion();
@@ -180,6 +182,48 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.Not.EquivalentTo(actual2.Select(x => x.Id)));
+        }
+
+        [Test]
+        public async Task GetCorrectAnswerAsync_Returns_ExpectedResult()
+        {
+            // Arrange
+            BasicMocks mocks = new BasicMocks();
+            List<(string questionId, string answerId)> expected = new List<(string, string)>();
+            int nextId = 0;
+            mocks.QuestionConverter.Setup(x => x.Convert(It.IsAny<JsonQuestion>()))
+                .Returns(() =>
+                {
+                    string questionId = $"QuestionId-{nextId}";
+                    string answerId = $"AnswerId-{nextId}";
+                    expected.Add((questionId, answerId));
+
+                    Question question = new Question {Id = questionId};
+                    return (question, answerId);
+                })
+                .Callback(() => nextId++);
+            IQuizDataClient underTest = CreateUnderTest(mocks);
+
+            // Act & Assert
+            foreach ((string questionId, string answerId) in expected)
+            {
+                string actual = await underTest.GetCorrectAnswerIdAsync(questionId);
+                Assert.That(actual, Is.EqualTo(answerId));
+            }
+        }
+
+        [Test]
+        public async Task GetCorrectAnswerAsync_UnknownQuestion_Returns_Null()
+        {
+            // Arrange
+            BasicMocks mocks = new BasicMocks();
+            IQuizDataClient underTest = CreateUnderTest(mocks);
+
+            // Act
+            string actual = await underTest.GetCorrectAnswerIdAsync("unknown-question-id");
+
+            // Assert
+            Assert.That(actual, Is.Null);
         }
 
         private static JsonFileClient CreateUnderTest(BasicMocks mocks)
