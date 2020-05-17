@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SimpleQuiz.Backend.Controllers.Models;
+using SimpleQuiz.Backend.Models;
 
 namespace SimpleQuiz.Backend.Controllers
 {

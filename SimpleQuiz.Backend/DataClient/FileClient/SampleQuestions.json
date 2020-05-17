@@ -1,0 +1,202 @@
+[
+  {
+    "question": "Which Norwegian polar explorer built the first base on the Antarctic continent?",
+    "possibleAnswers": [
+      "Roald Amundsen",
+      "Otto Sverdrup",
+      "Carsten Borchgrevink",
+      "Fridtjof Nansen"
+    ],
+    "correctAnswer": "Carsten Borchgrevink"
+  },
+  {
+    "question": "What is the elevation (in meters above sea level) at the South Pole?",
+    "possibleAnswers": [
+      "820",
+      "1525",
+      "2390",
+      "2835"
+    ],
+    "correctAnswer": "2835"
+  },
+  {
+    "question": "What is the largest species of penguin?",
+    "possibleAnswers": [
+      "King",
+      "Emperor",
+      "Gentoo",
+      "Adelie"
+    ],
+    "correctAnswer": "Emperor"
+  },
+  {
+    "question": "Which country was not one of the original 12 signatories of the Antarctic Treaty?",
+    "possibleAnswers": [
+      "Germany",
+      "Chile",
+      "Belgium",
+      "Japan"
+    ],
+    "correctAnswer": "Germany"
+  },
+  {
+    "question": "What is the term for the early stage of sea ice, where solid pieces have formed but the surface is not yet solid?",
+    "possibleAnswers": [
+      "Spot ice",
+      "Pancake ice",
+      "Growlers",
+      "Bergy bits"
+    ],
+    "correctAnswer": "Pancake ice"
+  },
+  {
+    "question": "Which of the following gemstones is not a variety of quartz?",
+    "possibleAnswers": [
+      "Tourmaline",
+      "Amethyst",
+      "Citrine",
+      "Onyx"
+    ],
+    "correctAnswer": "Tourmaline"
+  },
+  {
+    "question": "Which of the following geologic periods is the oldest?",
+    "possibleAnswers": [
+      "Permian",
+      "Jurassic",
+      "Cretacious",
+      "Cambrian"
+    ],
+    "correctAnswer": "Cambrian"
+  },
+  {
+    "question": "Which property of a mineral can be indicated using the Mohs scale?",
+    "possibleAnswers": [
+      "Color",
+      "Streak",
+      "Hardness",
+      "Transparency"
+    ],
+    "correctAnswer": "Hardness"
+  },
+  {
+    "question": "What kind of lava is typically formed from the eruption of underwater volcanic vents?",
+    "possibleAnswers": [
+      "Pillow lava",
+      "Block lava",
+      "A'a",
+      "Pahoehoe"
+    ],
+    "correctAnswer": "Pillow lava"
+  },
+  {
+    "question": "Which volcano contains the world's largest lava lake?",
+    "possibleAnswers": [
+      "Mount Erebus",
+      "Mount Etna",
+      "Mount Nyiragongo",
+      "Mount Merapi"
+    ],
+    "correctAnswer": "Mount Nyiragongo"
+  },
+  {
+    "question": "What animal appears on the flag of the Turks and Caicos Islands?",
+    "possibleAnswers": [
+      "turtle",
+      "lion",
+      "lobster",
+      "albatross"
+    ],
+    "correctAnswer": "lobster"
+  },
+  {
+    "question": "How many states make up the United States of America?",
+    "possibleAnswers": [
+      "45",
+      "48",
+      "50",
+      "52"
+    ],
+    "correctAnswer": "50"
+  },
+  {
+    "question": "Nagasaki is located on which of the main Japanese islands?",
+    "possibleAnswers": [
+      "Honshu",
+      "Kyushu",
+      "Shikoku",
+      "Hokkaido"
+    ],
+    "correctAnswer": "Kyushu"
+  },
+  {
+    "question": "What is the official language of The Gambia?",
+    "possibleAnswers": [
+      "French",
+      "English",
+      "Swahili",
+      "Yoruba"
+    ],
+    "correctAnswer": "English"
+  },
+  {
+    "question": "In 2018, the country of Swaziland changed its name to what?",
+    "possibleAnswers": [
+      "Eswatini",
+      "Lilangeni",
+      "Siyinqaba",
+      "Mbabane"
+    ],
+    "correctAnswer": "Eswatini"
+  },
+  {
+    "question": "In Star Wars Episode IV, where is the location of the hidden rebel base?",
+    "possibleAnswers": [
+      "Dantooine",
+      "Tatooine",
+      "Yavin 4",
+      "Hoth"
+    ],
+    "correctAnswer": "Yavin 4"
+  },
+  {
+    "question": "Which actor has played James Bond in the most films?",
+    "possibleAnswers": [
+      "Sean Connery",
+      "Roger Moore",
+      "Pierce Brosnan",
+      "Daniel Craig"
+    ],
+    "correctAnswer": "Roger Moore"
+  },
+  {
+    "question": "What is the name of the pirate in The Goonies?",
+    "possibleAnswers": [
+      "Long John Silver",
+      "Blackbeard",
+      "Dread Pirate Roberts",
+      "One-Eyed Willy"
+    ],
+    "correctAnswer": "One-Eyed Willy"
+  },
+  {
+    "question": "What is the name of The Princess Bride?",
+    "possibleAnswers": [
+      "Buttercup",
+      "Elise",
+      "Aura",
+      "Mary"
+    ],
+    "correctAnswer": "Buttercup"
+  },
+  {
+    "question": "What is the call sign of Mike Metcalf, the lead instructor in Top Gun?",
+    "possibleAnswers": [
+      "Jester",
+      "Viper",
+      "Wolfman",
+      "Slider"
+    ],
+    "correctAnswer": "Viper"
+  }
+]

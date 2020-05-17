@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleQuiz.Backend.Controllers.Models;
+using SimpleQuiz.Backend.Models;
 
-namespace SimpleQuiz.Backend.DataClient.JsonFileClient
+namespace SimpleQuiz.Backend.DataClient.FileClient
 {
     internal class JsonQuestionConverter : IJsonQuestionConverter
     {

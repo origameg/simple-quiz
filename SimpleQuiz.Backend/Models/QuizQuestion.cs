@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace SimpleQuiz.Backend.Controllers.Models
+namespace SimpleQuiz.Backend.Models
 {
     /// <summary>
     /// Represents a single question to be presented in the quiz.

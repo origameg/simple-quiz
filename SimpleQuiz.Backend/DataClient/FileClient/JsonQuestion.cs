@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SimpleQuiz.Backend.DataClient.JsonFileClient
+namespace SimpleQuiz.Backend.DataClient.FileClient
 {
     /// <summary>
     /// Simple JSON representation of a question

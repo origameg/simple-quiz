@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SimpleQuiz.Backend.Controllers.Models;
+using SimpleQuiz.Backend.Models;
 
 namespace SimpleQuiz.Backend
 {
@@ -14,9 +14,9 @@ namespace SimpleQuiz.Backend
         /// across multiple calls. Although the questions are the same, they only appear in the same order when
         /// <paramref name="fixedOrder"/> is true.
         /// </summary>
-        /// <param name="count">The number of questions to return.</param>
+        /// <param name="questionCount">The number of questions to return.</param>
         /// <param name="fixedOrder">Indicates whether the questions should appear in a repeatable order.</param>
         /// <returns></returns>
-        IList<QuizQuestion> GetFixedQuestionList(int count, bool fixedOrder);
+        IList<QuizQuestion> GetFixedQuestionList(int questionCount, bool fixedOrder);
     }
 }

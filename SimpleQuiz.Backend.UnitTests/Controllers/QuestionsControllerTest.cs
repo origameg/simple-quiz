@@ -4,22 +4,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using SimpleQuiz.Backend.Controllers;
-using SimpleQuiz.Backend.Controllers.Models;
+using SimpleQuiz.Backend.Models;
 
 namespace SimpleQuiz.Backend.UnitTests.Controllers
 {
     [TestFixture]
     internal class QuestionsControllerTest
     {
-        internal static int[] QuestionCountCases = { 1, 2, 5, 15 };
-
-        private T GetResponseObject<T>(IActionResult result) where T : class
-        {
-            ObjectResult objectResult = result as ObjectResult;
-            return objectResult?.Value as T;
-        }
-
-
         [Test]
         public async Task GetFixedQuestionSet_DefaultCount_Returns_200OK()
         {
@@ -75,6 +66,14 @@ namespace SimpleQuiz.Backend.UnitTests.Controllers
             IEnumerable<QuizQuestion> actual = GetResponseObject<IEnumerable<QuizQuestion>>(result);
             Assert.That(actual, Has.Exactly(questionCount).Items);
         }
-        
+
+
+        internal static int[] QuestionCountCases = { 1, 2, 5, 15 };
+
+        private T GetResponseObject<T>(IActionResult result) where T : class
+        {
+            ObjectResult objectResult = result as ObjectResult;
+            return objectResult?.Value as T;
+        }
     }
 }

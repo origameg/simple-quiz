@@ -1,6 +1,6 @@
-﻿using SimpleQuiz.Backend.Controllers.Models;
+﻿using SimpleQuiz.Backend.Models;
 
-namespace SimpleQuiz.Backend.DataClient.JsonFileClient
+namespace SimpleQuiz.Backend.DataClient.FileClient
 {
     /// <summary>
     /// Used to convert between the <see cref="JsonQuestion"/> model used in the raw file format and the more generalized

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SimpleQuiz.Backend.Controllers.Models
+namespace SimpleQuiz.Backend.Models
 {
     /// <summary>
     /// Represents a single answer option for a multiple-choice quiz question.

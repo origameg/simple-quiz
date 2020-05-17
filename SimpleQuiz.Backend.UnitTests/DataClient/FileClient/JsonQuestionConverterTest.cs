@@ -1,29 +1,13 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using SimpleQuiz.Backend.Controllers.Models;
-using SimpleQuiz.Backend.DataClient.JsonFileClient;
+using SimpleQuiz.Backend.DataClient.FileClient;
+using SimpleQuiz.Backend.Models;
 
-namespace SimpleQuiz.Backend.UnitTests.DataClient.JsonFileClient
+namespace SimpleQuiz.Backend.UnitTests.DataClient.FileClient
 {
     [TestFixture]
     internal class JsonQuestionConverterTest
     {
-        private static JsonQuestion CreateFakeQuestion()
-        {
-            return new JsonQuestion
-            {
-                Question = "Default fake question",
-                PossibleAnswers = new[]
-                {
-                    "Default fake answer 1",
-                    "Default fake answer 2",
-                    "Default fake answer 3",
-                    "Default fake answer 4"
-                },
-                CorrectAnswer = "Default fake answer 1"
-            };
-        }
-
         [Test]
         public void Convert_Sets_QuestionText()
         {
@@ -126,6 +110,23 @@ namespace SimpleQuiz.Backend.UnitTests.DataClient.JsonFileClient
             // Assert
             string expected = actual.question.Answers.First(x => x.Text == correctAnswer).Id;
             Assert.That(actual.correctAnswerId, Is.EqualTo(expected));
+        }
+
+
+        private static JsonQuestion CreateFakeQuestion()
+        {
+            return new JsonQuestion
+            {
+                Question = "Default fake question",
+                PossibleAnswers = new[]
+                {
+                    "Default fake answer 1",
+                    "Default fake answer 2",
+                    "Default fake answer 3",
+                    "Default fake answer 4"
+                },
+                CorrectAnswer = "Default fake answer 1"
+            };
         }
     }
 }
