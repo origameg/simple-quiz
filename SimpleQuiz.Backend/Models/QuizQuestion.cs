@@ -19,7 +19,7 @@ namespace SimpleQuiz.Backend.Controllers.Models
         /// The text to display for the question.
         /// </summary>
         [JsonPropertyName("question")]
-        public string Question { get; set; }
+        public string QuestionText { get; set; }
 
         /// <summary>
         /// The possible answers choices to present to the user.
