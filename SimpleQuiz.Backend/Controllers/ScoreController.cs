@@ -10,9 +10,11 @@ namespace SimpleQuiz.Backend.Controllers
     [Route("api/v1/scoring/")]
     public class ScoreController : Controller
     {
+        private readonly IScoreCalculator _scoreCalculator;
 
-        public ScoreController()
+        public ScoreController(IScoreCalculator scoreCalculator)
         {
+            _scoreCalculator = scoreCalculator;
         }
 
         /// <summary>

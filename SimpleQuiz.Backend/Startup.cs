@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleQuiz.Backend.DataClient;
 using SimpleQuiz.Backend.DataClient.FileClient;
+using SimpleQuiz.Backend.Models;
 
 namespace SimpleQuiz.Backend
 {
@@ -21,6 +22,8 @@ namespace SimpleQuiz.Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IQuestionProvider, QuestionProvider>();
+            services.AddSingleton<IScoreCalculator, ScoreCalculator>();
+
             services.AddSingleton<IQuizDataClient, JsonFileClient>();
             services.AddSingleton<IJsonQuestionConverter, JsonQuestionConverter>();
 
