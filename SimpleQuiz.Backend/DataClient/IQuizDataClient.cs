@@ -16,7 +16,8 @@ namespace SimpleQuiz.Backend.DataClient
         int GetAvailableQuestionCount();
 
         /// <summary>
-        /// Gets a set of questions from the given data source.
+        /// Gets a set of questions from the given data source. If <paramref name="randomSelection"/> is false,
+        /// the same questions should be returned every time, in the same order.
         /// </summary>
         /// <param name="questionCount">The number of questions to return.</param>
         /// <param name="randomSelection">Indicates whether a varying selection of questions should be returned.</param>
