@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SimpleQuiz.Backend.DataClient;
 using SimpleQuiz.Backend.Models;
 
@@ -22,9 +23,14 @@ namespace SimpleQuiz.Backend
             _random = new Random();
         }
 
-        public IEnumerable<QuizQuestion> GetFixedQuestionList(int questionCount, Shuffling shuffling)
+        public async Task<int> GetQuestionCount()
         {
-            QuizQuestion[] questions = _dataClient.GetQuestions(questionCount, false).ToArray();
+            return await _dataClient.GetAvailableQuestionCount();
+        }
+
+        public async Task<IEnumerable<QuizQuestion>> GetFixedQuestionList(int questionCount, Shuffling shuffling)
+        {
+            QuizQuestion[] questions = (await _dataClient.GetQuestions(questionCount, false)).ToArray();
 
             if ((shuffling & Shuffling.Questions) != 0)
                 questions = Shuffle(questions);

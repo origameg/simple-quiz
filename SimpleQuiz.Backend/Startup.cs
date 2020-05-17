@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SimpleQuiz.Backend.DataClient;
+using SimpleQuiz.Backend.DataClient.FileClient;
 
 namespace SimpleQuiz.Backend
 {
@@ -19,6 +21,8 @@ namespace SimpleQuiz.Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IQuestionProvider, QuestionProvider>();
+            services.AddSingleton<IQuizDataClient, JsonFileClient>();
+            services.AddSingleton<IJsonQuestionConverter, IJsonQuestionConverter>();
 
             services.AddControllers();
         }

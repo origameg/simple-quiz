@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using SimpleQuiz.Backend.DataClient;
@@ -11,47 +12,65 @@ namespace SimpleQuiz.Backend.UnitTests
     internal class QuestionProviderTest
     {
         [Test]
-        public void GetFixedQuestionList_Returns_QuestionsFromDataClient(
+        public async Task GetQuestionCount_Returns_ValueFromDataClient()
+        {
+            // Arrange
+            int expected = 13;
+            BasicMocks mocks = new BasicMocks();
+            mocks.QuizDataClient.Setup(c => c.GetAvailableQuestionCount())
+                .ReturnsAsync(expected);
+            IQuestionProvider underTest = CreateUnderTest(mocks);
+
+            // Act
+            int actual = await underTest.GetQuestionCount();
+
+            // Assert
+            mocks.QuizDataClient.Verify(c => c.GetAvailableQuestionCount());
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public async Task GetFixedQuestionList_Returns_QuestionsFromDataClient(
             [Values(1, 2, 10, 15)] int questionCount,
             [ValueSource(nameof(AllShufflingValues))] Shuffling shuffling)
         {
             // Arrange
-            QuizQuestion[] expected = CreateFakeQuestions(questionCount, prefix:"expected");
+            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(questionCount, prefix:"expected");
 
             BasicMocks mocks = new BasicMocks();
             mocks.QuizDataClient.Setup(c => c.GetQuestions(It.IsAny<int>(), false))
-                .Returns(expected);
+                .ReturnsAsync(expected);
             IQuestionProvider underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual = await underTest.GetFixedQuestionList(questionCount, shuffling);
 
             // Assert
             Assert.That(actual.Select(x => x.Id), Is.EquivalentTo(expected.Select(x => x.Id)));
         }
 
         [Test]
-        public void GetFixedQuestionList_NotShufflingQuestions_Returns_QuestionsInOrderFromClient(
+        public async Task GetFixedQuestionList_NotShufflingQuestions_Returns_QuestionsInOrderFromClient(
             [Values(1, 2, 10, 15)] int questionCount,
             [Values(Shuffling.None, Shuffling.Answers)] Shuffling shuffling)
         {
             // Arrange
-            QuizQuestion[] expected = CreateFakeQuestions(questionCount, prefix: "expected");
+            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(questionCount, prefix: "expected");
 
             BasicMocks mocks = new BasicMocks();
             mocks.QuizDataClient.Setup(c => c.GetQuestions(It.IsAny<int>(), false))
-                .Returns(expected);
+                .ReturnsAsync(expected);
             IQuestionProvider underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual = await underTest.GetFixedQuestionList(questionCount, shuffling);
 
             // Assert
             Assert.That(actual.Select(x => x.Id), Is.EqualTo(expected.Select(x => x.Id)));
         }
 
         [Test]
-        public void GetFixedQuestionList_ShufflingQuestions_Returns_QuestionsInVaryingOrder(
+        public async Task GetFixedQuestionList_ShufflingQuestions_Returns_QuestionsInVaryingOrder(
             [Values(5, 10, 15)] int questionCount,
             [Values(Shuffling.Questions, Shuffling.Questions | Shuffling.Answers)] Shuffling shuffling)
         {
@@ -61,8 +80,8 @@ namespace SimpleQuiz.Backend.UnitTests
             IQuestionProvider underTest = CreateUnderTest(mocks, seed);
 
             // Act
-            IEnumerable<QuizQuestion> actual1 = underTest.GetFixedQuestionList(questionCount, shuffling);
-            IEnumerable<QuizQuestion> actual2 = underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual1 = await underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual2 = await underTest.GetFixedQuestionList(questionCount, shuffling);
 
             // Assert
             Assert.That(actual1.Select(x => x.Id), Is.Not.EqualTo(actual2.Select(x => x.Id)));
@@ -70,20 +89,20 @@ namespace SimpleQuiz.Backend.UnitTests
         }
 
         [Test]
-        public void GetFixedQuestionList_NotShufflingAnswers_Returns_AnswersInOrderFromClient(
+        public async Task GetFixedQuestionList_NotShufflingAnswers_Returns_AnswersInOrderFromClient(
             [Values(1, 2, 10, 15)] int questionCount,
             [Values(Shuffling.None, Shuffling.Questions)] Shuffling shuffling)
         {
             // Arrange
-            QuizQuestion[] expected = CreateFakeQuestions(questionCount, prefix: "expected");
+            IEnumerable<QuizQuestion> expected = CreateFakeQuestions(questionCount, prefix: "expected");
 
             BasicMocks mocks = new BasicMocks();
             mocks.QuizDataClient.Setup(c => c.GetQuestions(It.IsAny<int>(), false))
-                .Returns(expected);
+                .ReturnsAsync(expected);
             IQuestionProvider underTest = CreateUnderTest(mocks);
 
             // Act
-            IEnumerable<QuizQuestion> actual = underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual = await underTest.GetFixedQuestionList(questionCount, shuffling);
 
             // Assert
             foreach (QuizQuestion expectedQuestion in expected)
@@ -94,7 +113,7 @@ namespace SimpleQuiz.Backend.UnitTests
         }
 
         [Test]
-        public void GetFixedQuestionList_ShufflingAnswers_Returns_AnswersInVaryingOrder(
+        public async Task GetFixedQuestionList_ShufflingAnswers_Returns_AnswersInVaryingOrder(
             [Values(1, 2, 10, 15)] int questionCount,
             [Values(Shuffling.Answers, Shuffling.Questions | Shuffling.Answers)] Shuffling shuffling)
         {
@@ -104,12 +123,12 @@ namespace SimpleQuiz.Backend.UnitTests
             BasicMocks mocks = new BasicMocks();
             // Increase the number of answers to make it statistically unlikely to return the same order for the same question
             mocks.QuizDataClient.Setup(c => c.GetQuestions(It.IsAny<int>(), false))
-                .Returns(() => CreateFakeQuestions(questionCount, answerCount: 10));
+                .ReturnsAsync(() => CreateFakeQuestions(questionCount, answerCount: 10));
             IQuestionProvider underTest = CreateUnderTest(mocks, seed);
 
             // Act
-            IEnumerable<QuizQuestion> actual1 = underTest.GetFixedQuestionList(questionCount, shuffling);
-            IEnumerable<QuizQuestion> actual2 = underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual1 = await underTest.GetFixedQuestionList(questionCount, shuffling);
+            IEnumerable<QuizQuestion> actual2 = await underTest.GetFixedQuestionList(questionCount, shuffling);
 
             // Assert
             foreach (QuizQuestion expectedQuestion in actual1)
@@ -138,7 +157,7 @@ namespace SimpleQuiz.Backend.UnitTests
             return new QuestionProvider(mocks.QuizDataClient.Object, seed);
         }
 
-        private static QuizQuestion[] CreateFakeQuestions(int count, int answerCount=4, string prefix="id")
+        private static IEnumerable<QuizQuestion> CreateFakeQuestions(int count, int answerCount=4, string prefix="id")
         {
             QuizQuestion[] questions = new QuizQuestion[count];
             for (int i = 0; i < count; i++)
@@ -173,7 +192,7 @@ namespace SimpleQuiz.Backend.UnitTests
             {
                 QuizDataClient = new Mock<IQuizDataClient>();
                 QuizDataClient.Setup(c => c.GetQuestions(It.IsAny<int>(), It.IsAny<bool>()))
-                    .Returns((int count, bool random) => CreateFakeQuestions(count));
+                    .ReturnsAsync((int count, bool random) => CreateFakeQuestions(count));
             }
         }
     }

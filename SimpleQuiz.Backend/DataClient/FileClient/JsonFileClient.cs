@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using SimpleQuiz.Backend.Models;
 
@@ -41,18 +42,18 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
             }
         }
 
-        public int GetAvailableQuestionCount()
+        public Task<int> GetAvailableQuestionCount()
         {
-            return _questions.Count;
+            return Task.FromResult(_questions.Count);
         }
 
-        public IEnumerable<QuizQuestion> GetQuestions(int questionCount, bool randomSelection)
+        public Task<IEnumerable<QuizQuestion>> GetQuestions(int questionCount, bool randomSelection)
         {
             if (questionCount > _questions.Count)
                 throw new ArgumentOutOfRangeException(nameof(questionCount), "Not enough questions available");
 
             if (!randomSelection)
-                return _questions.Take(questionCount);
+                return Task.FromResult(_questions.Take(questionCount));
 
             List<QuizQuestion> randomQuestions = new List<QuizQuestion>(questionCount);
             List<int> remainingQuestions = Enumerable.Range(0, _questions.Count).ToList();
@@ -62,7 +63,7 @@ namespace SimpleQuiz.Backend.DataClient.FileClient
                 randomQuestions.Add(_questions[remainingQuestions[index]]);
                 remainingQuestions.RemoveAt(index);
             }
-            return randomQuestions;
+            return Task.FromResult((IEnumerable<QuizQuestion>)randomQuestions);
         }
 
         private static IEnumerable<JsonQuestion> ReadFileContents(string filePath)
