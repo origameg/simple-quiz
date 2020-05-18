@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleQuiz.Backend.DataClient;
 using SimpleQuiz.Backend.DataClient.FileClient;
-using SimpleQuiz.Backend.Models;
 
 namespace SimpleQuiz.Backend
 {
