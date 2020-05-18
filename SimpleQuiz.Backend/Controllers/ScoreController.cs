@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleQuiz.Backend.Models;
@@ -10,6 +11,7 @@ namespace SimpleQuiz.Backend.Controllers
     /// Calculates the score for a completed set of quiz questions.
     /// </summary>
     [Route("api/v1/scoring/")]
+    [EnableCors("AllowOrigin")]
     public class ScoreController : Controller
     {
         private readonly IScoreCalculator _scoreCalculator;

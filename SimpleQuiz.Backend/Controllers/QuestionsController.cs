@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleQuiz.Backend.Models;
@@ -11,6 +12,7 @@ namespace SimpleQuiz.Backend.Controllers
     /// Provides access to the questions and answers to construct and display the quiz.
     /// </summary>
     [Route("api/v1/questions/")]
+    [EnableCors("AllowOrigin")]
     public class QuestionsController : Controller
     {
         internal const int DefaultCount = 10;
