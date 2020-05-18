@@ -22,7 +22,7 @@ namespace SimpleQuiz.Backend
         {
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader());
             });
 
             services.AddSingleton<IQuestionProvider, QuestionProvider>();
@@ -46,7 +46,7 @@ namespace SimpleQuiz.Backend
 
             app.UseRouting();
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader());
 
             app.UseAuthorization();
 
