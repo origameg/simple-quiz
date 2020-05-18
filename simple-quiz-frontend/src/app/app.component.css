@@ -1,0 +1,30 @@
+h1 {
+    color: #65D;
+    font-family: Corbel, "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 250%;
+}
+h2, h3 {
+  color: #44B;
+  font-family: Corbel, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  margin: 2em;
+}
+body, input[type="text"], button {
+  color: #222;
+  font-family: Cambria, Georgia;
+}
+* {
+  font-family: Corbel, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+.appFrame {
+  width: 50em;
+  margin: 3em;
+  padding: 1em;
+  border-top: 1px solid #99F;
+  border-left: 1px solid #99F;
+  border-bottom: 1px solid #44B;
+  border-right: 1px solid #44B;
+  border-radius: 8px;
+}

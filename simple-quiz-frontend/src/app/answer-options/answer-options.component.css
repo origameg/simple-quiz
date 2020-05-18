@@ -1,0 +1,21 @@
+.answer-options {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+  }
+  .answer-options li {
+    cursor: pointer;
+    position: relative;
+    margin: .5em 2em;
+    padding: .5em 1em;
+    background-color: #EEE;
+    border-radius: 4px;
+  }
+  .answer-options li:hover {
+    color: #45D;
+    background-color: #DDF;
+  }
+  .answer-options li.selected {
+    background-color: #DDF;
+    color: #45D;
+  }

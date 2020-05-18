@@ -1,0 +1,53 @@
+.questions {
+    margin: 5em;
+    list-style-type: none;
+    padding: 0;
+  }
+  .questions li {
+    cursor: pointer;
+    position: relative;
+    display: inline;
+    left: 0;
+    background-color: #EEE;
+    margin: 1em .5em;
+    padding: .5em 1em;
+    height: 1.6em;
+    border-radius: 4px;
+  }
+  .questions li:hover {
+    color: white;
+    background-color: #DDF;
+    top: .1em;
+  }
+  .questions li.selected {
+    background-color: #DDF;
+    color: #45D;
+  }
+  .questions li.selected:hover {
+    background-color: #DDF;
+    color: #45D;
+    top: .1em;
+  }
+.bottomBar {
+  width: 100%;
+  height: 3em;
+  vertical-align: top;
+  text-align: right;
+}
+.bottomButton {
+  width: 20em;
+  cursor: pointer;
+  position: relative;
+  display: inline;
+  left: 0;
+  color: white;
+  background-color:#65D;
+  margin: 1em .5em;
+  padding: .5em 1em;
+  height: 1.6em;
+  border-radius: 4px;
+}
+  .bottomButton:hover {
+    color: #DDF;
+    top: .1em;
+  }

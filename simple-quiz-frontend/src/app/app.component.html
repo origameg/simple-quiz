@@ -1,0 +1,9 @@
+<div class="appFrame">
+    <h1>{{title}}</h1>
+    <div *ngIf="quiz.score == null">
+        <app-questions [quiz]="quiz"></app-questions>
+    </div>
+    <div *ngIf="quiz.score">
+        <app-score [quiz]="quiz"></app-score>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<ul class="answer-options">
+    <li *ngFor="let answer of question.answers" [class.selected]="answer.id == question.selectedAnswerId" (click)="onSelect(answer)">
+        {{answer.text}}
+    </li>
+</ul>

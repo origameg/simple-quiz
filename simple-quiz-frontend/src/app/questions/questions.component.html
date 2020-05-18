@@ -1,0 +1,17 @@
+<div *ngIf="questions">Question {{index + 1}} of {{questions.length}}</div>
+
+<div *ngIf="selectedQuestion">
+
+    <h2>{{selectedQuestion.question}}</h2>
+    <app-answer-options [question]="selectedQuestion"></app-answer-options>
+
+    <div class="bottomBar">
+
+        <div *ngIf="questions && index < questions.length - 1 && selectedQuestion.selectedAnswerId"
+            class="bottomButton" (click)="onNextQuestion()">Next Question</div>
+
+        <div *ngIf="index == questions.length - 1 && selectedQuestion.selectedAnswerId"
+            class="bottomButton" (click)="onScore()">Calculate Score</div>
+    </div>
+
+</div>
