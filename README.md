@@ -2,8 +2,8 @@
 
 ## Deployment
 	
-* Backend runs on port 5001 by default
-	
+* Backend : http://localhost:5000/
+* Frontend : http://localhost:4200/
 
 ## Design
 
